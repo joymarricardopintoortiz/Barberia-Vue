@@ -1095,4 +1095,26 @@ button {
   padding: 25px;
   box-shadow: 0 15px 50px rgba(0,0,0,0.25)
 }
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 5px 0 0;
+  font-size: 24px;
+}
+
+.error {
+  background: #fde7e5;
+  color: #a43830;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
 </style>

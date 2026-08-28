@@ -1117,4 +1117,53 @@ button {
   font-size: 14px;
 }
 
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.campo-completo {
+  grid-column: 1 / -1;
+}
+
+.campo label {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.campo input, .campo select, .campo textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 9px;
+  padding: 11px;
+  outline: none;
+  background: white;
+  color: #222;
+}
+
+.campo input:focus, .campo select:focus, .campo textarea:focus {
+  border-color: #c89b5c;
+  box-shadow: 0 0 0 2px rgba(200, 155, 92, 0.12);
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.calificacion-form {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
 </style>

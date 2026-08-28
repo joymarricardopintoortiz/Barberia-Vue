@@ -962,4 +962,117 @@ button {
   background: #fff2cf;
   color: #a33a31;
 }
+
+.card-body {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.dato {
+  min-width: 0;
+}
+
+.dato-label {
+  display: block;
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.dato strong {
+  display: block;
+  word-break: break-word;
+}
+
+.precio {
+  color: #9a713b;
+  font-size: 18px;
+}
+
+.estrellas {
+  letter-spacing: 2px;
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+.calificacion-baja {
+  color: #c0392b;
+}
+
+.calificacion-media {
+  color: #d69a20;
+}
+
+.calificacion-alta {
+  color: #c89b5c;
+}
+
+.alerta-calificacion, .alerta-fiado {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.alerta-calificacion {
+  background: #fff6dc;
+  color: #806000;
+}
+
+.observaciones {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.card-footer {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.metodo {
+  font-size: 13px;
+  color: #666;
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.vacio {
+  background: white;
+  padding: 60px 20px;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.vacio-icono {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+.vacio h3 {
+  margin: 0 0 5px;
+}
+
+.vacio p {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+
 </style>

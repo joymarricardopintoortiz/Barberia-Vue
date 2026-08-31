@@ -8,6 +8,8 @@ const mostrarModal = ref(false)
 const modoEdicion = ref(false)
 const idEditando = ref(null)
 const mensajeError = ref('')
+const mostrarConfirmacion = ref(false)
+const idEliminar = ref(null)
 
 const servicioActual = ref({
   nombre: '',
@@ -177,21 +179,25 @@ function guardarServicio() {
 }
 
 function eliminarServicio(id) {
-  const confirmar = confirm(
-    '¿Está seguro de que desea eliminar este servicio?'
-  )
+  idEliminar.value = id
+  mostrarConfirmacion.value = true
+}
 
-  if (!confirmar) {
-    return
-  }
+function cancelarEliminacion() {
+  mostrarConfirmacion.value = false
+  idEliminar.value = null
+}
 
+function confirmarEliminacion() {
   const posicion = servicios.value.findIndex(
-    servicio => servicio.id === id
+    servicio => servicio.id === idEliminar.value
   )
 
   if (posicion !== -1) {
     servicios.value.splice(posicion, 1)
   }
+
+  cancelarEliminacion()
 }
 
 function obtenerIconoPago(metodo) {
@@ -718,6 +724,28 @@ function calcularPorCobrar() {
       </div>
     </div>
 
+    <div v-show="mostrarConfirmacion" class="modal-fondo" @click.self="cancelarEliminacion">
+      <div class="modal-confirmacion">
+        <div class="confirmacion-icono">🗑️</div>
+        <h2>¿Eliminar servicio?</h2>
+        <p>Esta acción eliminará el registro del servicio.
+          No podrás recuperarlo después.
+        </p>
+        <div class="confirmacion-botones">
+          <button
+          type="button"
+          class="btn-secundario"
+          @click="cancelarEliminacion"
+          >Cancelar</button>
+          <button
+          type="button"
+          class="btn-confirmar-eliminar"
+          @click="confirmarEliminacion">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1203,6 +1231,62 @@ button {
   margin-top: 25px;
   padding-top: 20px;
   border-top: 1px solid #eee;
+}
+
+.modal-confirmacion {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 18px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+  animation: aparecerModal 0.2s ease;
+}
+
+.confirmacion-icono {
+  width: 65px;
+  height: 65px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  background: #fbe4e2;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+}
+
+.modal-confirmacion h2 {
+  margin: 0 0 10px;
+  color: #171717;
+  font-size: 23px;
+}
+
+.modal-confirmacion p {
+  margin: 0 auto;
+  max-width: 330px;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.confirmacion-botones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.confirmacion-botones button {
+  min-height: auto;
+}
+
+.btn-confirmar-eliminar {
+  border: 0;
+  background: #c7483d;
+  color: white;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-weight: bold;
 }
 
 @media (max-width: 900px) {

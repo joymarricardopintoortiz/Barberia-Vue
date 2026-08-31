@@ -1077,7 +1077,7 @@ button {
 .observaciones {
   margin-top: 15px;
   padding-top: 15px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #818181;
   font-size: 13px;
   color: #666;
   line-height: 1.5;
@@ -1087,7 +1087,7 @@ button {
 .card-footer {
   margin-top: 18px;
   padding-top: 15px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #818181;
   display: flex;
   justify-content: space-between;
   align-items: center;

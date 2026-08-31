@@ -735,6 +735,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: #f4f1eb;
   color: #242424;
+  background-image: linear-gradient(
+    rgba(0,0,0,0.45),
+    rgba(0,0,0,0.45)
+  ),
+  url("https://img.magnific.com/vector-premium/vector-hipster-patrones-fisuras-iconos-barberia-cara-hipster-estilo-plano-fondo-fin-peluqueria_258190-3052.jpg");
 }
 
 button, input, select, textarea {
@@ -746,7 +751,11 @@ button {
 }
 
 .app {
+  width: 100%;
+  max-width: 1125px;
   min-height: 100vh;
+  margin: 0 auto;
+  background: #f4f1eb;
 }
 
 .header {
@@ -872,6 +881,7 @@ button {
 .titulo-lista h2 {
   margin: 0 0 5px;
   font-size: 25px;
+  color: #171717;
 }
 
 .titulo-lista p {
@@ -1106,6 +1116,7 @@ button {
 .modal-header h2 {
   margin: 5px 0 0;
   font-size: 24px;
+  color: #171717;
 }
 
 .error {
@@ -1166,4 +1177,373 @@ button {
   flex-wrap: wrap;
 }
 
+.estrella-btn {
+  border: 0;
+  background: transparent;
+  color: #ccc;
+  font-size: 28px;
+  padding: 0 3px;
+  line-height: 1;
+}
+
+.estrella-btn.seleccionada {
+  color: #c89b5c;
+}
+
+.calificacion-form span {
+  margin-left: 8px;
+  color: #777;
+  font-weight: bold;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 25px 4%;
+  }
+
+  .resumen {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lista {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 22px 18px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header h1 {
+    font-size: 23px;
+  }
+
+  .header .btn-principal {
+    width: 100%;
+  }
+
+  .resumen {
+    grid-template-columns: 1fr;
+    padding: 0 15px;
+    margin: 18px auto;
+  }
+
+  .resumen-card {
+    padding: 16px;
+  }
+
+  .contenido {
+    padding: 0 15px 35px;
+  }
+
+  .titulo-lista h2 {
+    font-size: 22px;
+  }
+
+  .servicio-card {
+    padding: 16px;
+  }
+
+  .card-header {
+    flex-direction: column;
+  }
+
+  .estado {
+    align-self: flex-start;
+  }
+
+  .card-body {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .btn-editar,
+  .btn-eliminar {
+    width: 100%;
+  }
+
+  .modal-fondo {
+    padding: 10px;
+    align-items: center;
+  }
+
+  .modal {
+    max-height: 95vh;
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-completo {
+    grid-column: auto;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .header {
+    padding: 18px 12px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .subtitulo {
+    font-size: 13px;
+  }
+
+  .etiqueta {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .resumen {
+    padding: 0 10px;
+  }
+
+  .contenido {
+    padding: 0 10px 25px;
+  }
+
+  .resumen-card {
+    padding: 14px;
+  }
+
+  .resumen-icono {
+    font-size: 24px;
+  }
+
+  .resumen-card strong {
+    font-size: 19px;
+  }
+
+  .servicio-card {
+    padding: 13px;
+    border-left-width: 4px;
+  }
+
+  .cliente {
+    gap: 9px;
+  }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .cliente h3 {
+    font-size: 15px;
+  }
+
+  .cliente p {
+    font-size: 11px;
+  }
+
+  .acciones {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    padding: 16px;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 300px) {
+  .header {
+    padding: 15px 8px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .subtitulo {
+    font-size: 12px;
+  }
+
+  .btn-principal {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .resumen {
+    padding: 0 7px;
+    gap: 10px;
+  }
+
+  .resumen-card {
+    padding: 11px;
+    gap: 9px;
+  }
+
+  .resumen-card strong {
+    font-size: 17px;
+  }
+
+  .resumen-card > div > span {
+    font-size: 11px;
+  }
+
+  .resumen-icono {
+    font-size: 21px;
+    min-width: 25px;
+  }
+
+  .contenido {
+    padding: 0 7px 20px;
+  }
+
+  .titulo-lista h2 {
+    font-size: 19px;
+  }
+
+  .titulo-lista p {
+    font-size: 12px;
+  }
+
+  .servicio-card {
+    padding: 11px;
+  }
+
+  .card-header {
+    gap: 8px;
+  }
+
+  .cliente {
+    width: 100%;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+  }
+
+  .cliente h3 {
+    font-size: 14px;
+  }
+
+  .cliente p {
+    font-size: 10px;
+  }
+
+  .estado {
+    font-size: 10px;
+    padding: 5px 7px;
+  }
+
+  .dato-label {
+    font-size: 10px;
+  }
+
+  .dato strong {
+    font-size: 13px;
+  }
+
+  .precio {
+    font-size: 16px !important;
+  }
+
+  .estrellas {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .alerta-calificacion,
+  .alerta-fiado,
+  .observaciones {
+    font-size: 11px;
+  }
+
+  .metodo {
+    font-size: 11px;
+  }
+
+  .modal-fondo {
+    padding: 5px;
+  }
+
+  .modal {
+    padding: 13px;
+    border-radius: 11px;
+  }
+
+  .modal-header {
+    margin-bottom: 15px;
+  }
+
+  .modal-header h2 {
+    font-size: 18px;
+  }
+
+  .btn-cerrar {
+    font-size: 25px;
+  }
+
+  .campo {
+    gap: 4px;
+  }
+
+  .campo label {
+    font-size: 11px;
+  }
+
+  .campo input,
+  .campo select,
+  .campo textarea {
+    padding: 9px;
+    font-size: 12px;
+  }
+
+  .estrella-btn {
+    font-size: 24px;
+  }
+
+  .calificacion-form span {
+    font-size: 12px;
+  }
+
+  .modal-footer {
+    margin-top: 18px;
+    padding-top: 15px;
+  }
+}
 </style>

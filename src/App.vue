@@ -10,6 +10,7 @@ const idEditando = ref(null)
 const mensajeError = ref('')
 const mostrarConfirmacion = ref(false)
 const idEliminar = ref(null)
+const cargando = ref(false)
 
 const servicioActual = ref({
   nombre: '',
@@ -130,12 +131,16 @@ function validarFormulario() {
   return true
 }
 
-function guardarServicio() {
+async function guardarServicio() {
   mensajeError.value = ''
 
   if (!validarFormulario()) {
     return
   }
+
+  cargando.value = true
+
+  await new Promise(resolve => setTimeout(resolve, 800))
 
   if (modoEdicion.value) {
     const posicion = servicios.value.findIndex(
@@ -175,6 +180,7 @@ function guardarServicio() {
     servicios.value.unshift(nuevoServicio)
   }
 
+  cargando.value = false
   cerrarModal()
 }
 
@@ -188,7 +194,11 @@ function cancelarEliminacion() {
   idEliminar.value = null
 }
 
-function confirmarEliminacion() {
+async function confirmarEliminacion() {
+  cargando.value = true
+
+  await new Promise(resolve => setTimeout(resolve, 800))
+
   const posicion = servicios.value.findIndex(
     servicio => servicio.id === idEliminar.value
   )
@@ -198,6 +208,7 @@ function confirmarEliminacion() {
   }
 
   cancelarEliminacion()
+  cargando.value = false
 }
 
 function obtenerIconoPago(metodo) {
@@ -746,6 +757,9 @@ function calcularPorCobrar() {
         </div>
       </div>
     </div>
+    <div v-if="cargando" class="loading-fondo">
+      <div class="spinner"></div>
+    </div>
   </div>
 </template>
 
@@ -1287,6 +1301,31 @@ button {
   padding: 11px 18px;
   border-radius: 10px;
   font-weight: bold;
+}
+
+.loading-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  border: 5px solid #ddd;
+  border-top-color: #c89b5c;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 900px) {

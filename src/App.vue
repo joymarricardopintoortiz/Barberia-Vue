@@ -109,6 +109,14 @@ function validarFormulario() {
     return false
   }
 
+  const [horas, minutos] = servicioActual.value.hora.split(':').map(Number)
+  const minutosTotales = horas * 60 + minutos
+
+  if (minutosTotales < 6 * 60 || minutosTotales > 20 * 60) {
+    mensajeError.value = 'El horario de atencion es de 6:00 AM a 8:00 PM'
+    return false
+  }
+
   if (!servicioActual.value.precio) {
     mensajeError.value = 'Ingrese el precio.'
     return false

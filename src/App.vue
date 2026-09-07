@@ -918,9 +918,8 @@ button {
 }
 
 .lista {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  columns: 3;
+  column-gap: 18px;
 }
 
 .servicio-card {
@@ -929,6 +928,10 @@ button {
   padding: 20px;
   box-shadow: 0 4px 18px rgba(0,0,0,0.06);
   border-left: 5px solid #c89b5c;
+  display: flex;
+  flex-direction: column;
+  break-inside: avoid;
+  margin-bottom: 18px;
 }
 
 .servicio-card .estado-pendiente {
@@ -1113,7 +1116,7 @@ button {
 }
 
 .card-footer {
-  margin-top: 18px;
+  margin-top: 15px;
   padding-top: 15px;
   border-top: 1px solid #818181;
   display: flex;
@@ -1366,7 +1369,7 @@ button {
   }
 
   .lista {
-    grid-template-columns: 1fr;
+    columns: 2;
   }
 }
 
@@ -1401,6 +1404,10 @@ button {
 
   .titulo-lista h2 {
     font-size: 22px;
+  }
+
+  .lista {
+    columns: 1;
   }
 
   .servicio-card {
@@ -1534,6 +1541,11 @@ button {
 
   .modal-header h2 {
     font-size: 20px;
+  }
+
+  .servicios-checkbox label {
+    padding: 7px 12px;
+    font-size: 12px;
   }
 }
 
@@ -1684,6 +1696,15 @@ button {
     font-size: 12px;
   }
 
+  .servicios-checkbox {
+    gap: 7px;
+  }
+
+  .servicios-checkbox label {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
   .estrella-btn {
     font-size: 24px;
   }
@@ -1697,4 +1718,5 @@ button {
     padding-top: 15px;
   }
 }
+
 </style>

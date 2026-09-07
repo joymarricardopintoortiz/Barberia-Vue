@@ -958,6 +958,31 @@ button {
   border-radius: 20px;
 }
 
+.servicios-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+
+
+.servicios-checkbox input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: 21px;
+  font-weight: bold;
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;

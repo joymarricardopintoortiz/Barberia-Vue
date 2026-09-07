@@ -970,8 +970,6 @@ button {
   flex-shrink: 0;
 }
 
-
-
 .servicios-checkbox input[type="checkbox"]:checked::after {
   content: '✓';
   position: absolute;

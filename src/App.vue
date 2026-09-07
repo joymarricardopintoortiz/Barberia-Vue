@@ -20,8 +20,8 @@ const servicioActual = ref({
   hora: '',
   precio: '',
   metodoPago: '',
-  estadoPago: 'pagado',
-  calificacion: 5,
+  estadoPago: '',
+  calificacion: 0,
   observaciones: ''
 })
 
@@ -34,8 +34,8 @@ function limpiarFormulario() {
     hora: '',
     precio: '',
     metodoPago: '',
-    estadoPago: 'pagado',
-    calificacion: 5,
+    estadoPago: '',
+    calificacion: 0,
     observaciones: ''
   }
 
@@ -92,6 +92,15 @@ function validarFormulario() {
 
   if (!servicioActual.value.fecha) {
     mensajeError.value = 'Seleccione la fecha.'
+    return false
+  }
+
+  const fechaSeleccionada = new Date(servicioActual.value.fecha + 'T00:00:00')
+  const hoy = new Date()
+  hoy.setHours(0, 0, 0, 0)
+
+  if (fechaSeleccionada > hoy) {
+    mensajeError.value = 'No puede registrar un servicio con fecha futura.'
     return false
   }
 
@@ -662,6 +671,10 @@ function calcularPorCobrar() {
               <label>Estado del pago *</label>
 
               <select v-model="servicioActual.estadoPago">
+                <option value="">
+                  Seleccione...
+                </option>
+
                 <option value="pagado">
                   Pagado
                 </option>

@@ -14,7 +14,7 @@ const cargando = ref(false)
 
 const servicioActual = ref({
   nombre: '',
-  servicio: '',
+  servicios: [],
   barbero: '',
   fecha: '',
   hora: '',
@@ -28,7 +28,7 @@ const servicioActual = ref({
 function limpiarFormulario() {
   servicioActual.value = {
     nombre: '',
-    servicio: '',
+    servicios: [],
     barbero: '',
     fecha: '',
     hora: '',
@@ -52,7 +52,7 @@ function abrirModalNuevo() {
 function abrirModalEditar(servicio) {
   servicioActual.value = {
     nombre: servicio.nombre,
-    servicio: servicio.servicio,
+    servicios: servicio.servicios,
     barbero: servicio.barbero,
     fecha: servicio.fecha,
     hora: servicio.hora,
@@ -80,8 +80,8 @@ function validarFormulario() {
     return false
   }
 
-  if (!servicioActual.value.servicio) {
-    mensajeError.value = 'Seleccione el tipo de servicio.'
+  if (servicioActual.value.servicios.length === 0) {
+    mensajeError.value = 'Seleccione al menos un tipo de servicio.'
     return false
   }
 
@@ -160,7 +160,7 @@ async function guardarServicio() {
       servicios.value[posicion] = {
         id: idEditando.value,
         nombre: servicioActual.value.nombre.trim(),
-        servicio: servicioActual.value.servicio,
+        servicios: servicioActual.value.servicios,
         barbero: servicioActual.value.barbero,
         fecha: servicioActual.value.fecha,
         hora: servicioActual.value.hora,
@@ -175,7 +175,7 @@ async function guardarServicio() {
     const nuevoServicio = {
       id: Date.now(),
       nombre: servicioActual.value.nombre.trim(),
-      servicio: servicioActual.value.servicio,
+      servicios: servicioActual.value.servicios,
       barbero: servicioActual.value.barbero,
       fecha: servicioActual.value.fecha,
       hora: servicioActual.value.hora,
@@ -422,7 +422,7 @@ function calcularPorCobrar() {
 
             <div class="dato">
               <span class="dato-label">Servicio</span>
-              <strong>{{ servicio.servicio }}</strong>
+              <strong>{{ servicio.servicios.join(', ') }}</strong>
             </div>
 
             <div class="dato">
@@ -556,42 +556,15 @@ function calcularPorCobrar() {
               >
             </div>
 
-            <div class="campo">
+            <div class="campo campo-completo">
               <label>Tipo de servicio *</label>
 
-              <select v-model="servicioActual.servicio">
-                <option value="">
-                  Seleccione...
-                </option>
-
-                <option value="Corte clásico">
-                  Corte clásico
-                </option>
-
-                <option value="Corte moderno">
-                  Corte moderno
-                </option>
-
-                <option value="Barba">
-                  Barba
-                </option>
-
-                <option value="Corte + barba">
-                  Corte + barba
-                </option>
-
-                <option value="Cejas">
-                  Cejas
-                </option>
-
-                <option value="Tinte">
-                  Tinte
-                </option>
-
-                <option value="Otro">
-                  Otro
-                </option>
-              </select>
+              <div class="servicios-checkbox">
+                <label v-for="opcion in ['Corte clásico', 'Corte moderno', 'Barba', 'Cejas', 'Tinte', 'Otro']" :key="opcion">
+                  <input type="checkbox" :value="opcion" v-model="servicioActual.servicios">
+                  {{ opcion }}
+                </label>
+              </div>
             </div>
 
             <div class="campo">
@@ -964,6 +937,25 @@ button {
 
 .servicio-card .estado-fiado {
   border-left-color: #c7483d;
+}
+
+.servicios-checkbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.servicios-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid #ddd;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+  background: white;
+  border-radius: 20px;
 }
 
 .card-header {

@@ -14,6 +14,7 @@ const cargando = ref(false)
 const serviciosExcluyentes = ['Corte clásico', 'Corte moderno']
 const mostrarModalCalificacion = ref(false)
 const idParaCalificar = ref(null)
+const fechaMinima = new Date().toISOString().split('T')[0]
 
 const servicioActual = ref({
   nombre: '',
@@ -126,8 +127,8 @@ function validarFormulario() {
   const hoy = new Date()
   hoy.setHours(0, 0, 0, 0)
 
-  if (fechaSeleccionada > hoy) {
-    mensajeError.value = 'No puede registrar un servicio con fecha futura.'
+  if (fechaSeleccionada < hoy) {
+    mensajeError.value = 'No puede registrar un servicio con fecha pasada.'
     return false
   }
 
@@ -226,19 +227,18 @@ async function guardarServicio() {
 
   cargando.value = false
   cerrarModal()
-
-  const posicionFinal = servicios.value.findIndex(s => s.id === idGuardado)
-  servicioActual.value.calificacion = posicionFinal !== -1
-  ? servicios.value[posicionFinal].calificacion
-  :0
-
-  idParaCalificar.value = idGuardado
-  mostrarModalCalificacion.value = true
 }
 
 function cerrarModalCalificacion() {
   mostrarModalCalificacion.value = false
   idParaCalificar.value = null
+}
+
+function abrirModalCalificar(servicio) {
+  idParaCalificar.value = servicio.id
+  servicioActual.value.calificacion = servicio.calificacion
+  mensajeError.value = ''
+  mostrarModalCalificacion.value = true
 }
 
 async function confirmarCalificacion() {
@@ -565,6 +565,15 @@ function formatearFecha(fecha) {
             </span>
 
             <div class="acciones">
+
+              <button
+              v-if="servicio.calificacion === 0"
+                class="btn-calificar"
+                @click="abrirModalCalificar(servicio)"
+              >
+                ⭐ Calificar
+              </button>
+
               <button
                 class="btn-editar"
                 @click="abrirModalEditar(servicio)"
@@ -851,18 +860,15 @@ function formatearFecha(fecha) {
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
   margin: 0;
+  min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
   background: #f4f1eb;
   color: #242424;
-  background-image: linear-gradient(
-    rgba(0,0,0,0.45),
-    rgba(0,0,0,0.45)
-  ),
-  url("https://img.magnific.com/vector-premium/vector-hipster-patrones-fisuras-iconos-barberia-cara-hipster-estilo-plano-fondo-fin-peluqueria_258190-3052.jpg");
 }
 
 button, input, select, textarea {
@@ -875,9 +881,8 @@ button {
 
 .app {
   width: 100%;
-  max-width: 1125px;
   min-height: 100vh;
-  margin: 0 auto;
+  margin: 0;
   background: #f4f1eb;
 }
 
@@ -928,7 +933,7 @@ button {
   font-weight: bold;
 }
 
-.btn-editar, .btn-eliminar {
+.btn-editar, .btn-eliminar, .btn-calificar {
   border: 0;
   padding: 8px 12px;
   border-radius: 8px;
@@ -945,6 +950,11 @@ button {
   color: #a63c32;
 }
 
+.btn-calificar {
+  background: #f0d488;
+  color: #7c5900;
+}
+
 .btn-cerrar {
   border: 0;
   background: transparent;
@@ -955,8 +965,8 @@ button {
 }
 
 .resumen {
-  max-width: 1200px;
-  margin: 25px auto;
+  width: 100%;
+  margin: 25px 0;
   padding: 0 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -992,8 +1002,8 @@ button {
 }
 
 .contenido {
-  max-width: 1200px;
-  margin: auto;
+  width: 100%;
+  margin: 0;
   padding: 0 20px 50px;
 }
 

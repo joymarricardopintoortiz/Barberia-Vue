@@ -11,10 +11,12 @@ const mensajeError = ref('')
 const mostrarConfirmacion = ref(false)
 const idEliminar = ref(null)
 const cargando = ref(false)
+const serviciosExcluyentes = ['Corte clásico', 'Corte moderno']
 
 const servicioActual = ref({
   nombre: '',
   servicios: [],
+  otroDetalle: '',
   barbero: '',
   fecha: '',
   hora: '',
@@ -25,10 +27,32 @@ const servicioActual = ref({
   observaciones: ''
 })
 
+function alternarServicio(opcion) {
+  if (serviciosExcluyentes.includes(opcion)) {
+    serviciosExcluyentes.forEach(item => {
+      if (item !== opcion) {
+        const i = servicioActual.value.servicios.indexOf(item)
+        if (i !== -1) {
+          servicioActual.value.servicios.splice(i, 1)
+        }
+      }
+    })
+  }
+
+  const index = servicioActual.value.servicios.indexOf(opcion)
+
+  if (index === -1) {
+    servicioActual.value.servicios.push(opcion)
+  } else {
+    servicioActual.value.servicios.splice(index, 1)
+  }
+}
+
 function limpiarFormulario() {
   servicioActual.value = {
     nombre: '',
     servicios: [],
+    otroDetalle: '',
     barbero: '',
     fecha: '',
     hora: '',
@@ -53,6 +77,7 @@ function abrirModalEditar(servicio) {
   servicioActual.value = {
     nombre: servicio.nombre,
     servicios: servicio.servicios,
+    otroDetalle: servicio.otroDetalle,
     barbero: servicio.barbero,
     fecha: servicio.fecha,
     hora: servicio.hora,
@@ -169,6 +194,7 @@ async function guardarServicio() {
         id: idEditando.value,
         nombre: servicioActual.value.nombre.trim(),
         servicios: servicioActual.value.servicios,
+        otroDetalle: servicioActual.value.otroDetalle?.trim() || '',
         barbero: servicioActual.value.barbero,
         fecha: servicioActual.value.fecha,
         hora: servicioActual.value.hora,
@@ -311,6 +337,18 @@ function calcularPorCobrar() {
 
   return total.toLocaleString('es-CO')
 }
+
+function obtenerTextoServicios(servicio) {
+  return servicio.servicios
+    .map(item => {
+      if (item === 'Otro' && servicio.otroDetalle) {
+        return servicio.otroDetalle
+      }
+      return item
+    })
+    .join(', ')
+}
+
 </script>
 
 <template>
@@ -430,7 +468,7 @@ function calcularPorCobrar() {
 
             <div class="dato">
               <span class="dato-label">Servicio</span>
-              <strong>{{ servicio.servicios.join(', ') }}</strong>
+              <strong>{{ obtenerTextoServicios(servicio) }}</strong>
             </div>
 
             <div class="dato">
@@ -569,9 +607,13 @@ function calcularPorCobrar() {
 
               <div class="servicios-checkbox">
                 <label v-for="opcion in ['Corte clásico', 'Corte moderno', 'Barba', 'Cejas', 'Tinte', 'Otro']" :key="opcion">
-                  <input type="checkbox" :value="opcion" v-model="servicioActual.servicios">
+                  <input type="checkbox" :checked="servicioActual.servicios.includes(opcion)" @change="alternarServicio(opcion)">
                   {{ opcion }}
                 </label>
+              </div>
+              <div v-if="servicioActual.servicios.includes('Otro')" class="campo campo-completo">
+                <label>Especifique el servicio *</label>
+                <input v-model="servicioActual.otroDetalle" type="text" placeholder="Ej: Diseño de barba con navaja">
               </div>
             </div>
 

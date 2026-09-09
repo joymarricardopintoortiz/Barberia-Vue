@@ -189,7 +189,6 @@ async function guardarServicio() {
     if (posicion !== -1) {
       servicios.value[posicion] = {
         id: idEditando.value,
-        idGuardado: idEditando.value,
         nombre: servicioActual.value.nombre.trim(),
         servicios: servicioActual.value.servicios,
         otroDetalle: servicioActual.value.otroDetalle?.trim() || '',
@@ -354,28 +353,6 @@ function obtenerEstrellas(calificacion) {
 
 function formatearPrecio(precio) {
   return Number(precio).toLocaleString('es-CO')
-}
-
-function calcularVentas() {
-  let total = 0
-
-  for (let servicio of servicios.value) {
-    total += Number(servicio.precio)
-  }
-
-  return total.toLocaleString('es-CO')
-}
-
-function calcularPorCobrar() {
-  let total = 0
-
-  for (let servicio of servicios.value) {
-    if (servicio.estadoPago !== 'pagado') {
-      total += Number(servicio.precio)
-    }
-  }
-
-  return total.toLocaleString('es-CO')
 }
 
 function obtenerTextoServicios(servicio) {

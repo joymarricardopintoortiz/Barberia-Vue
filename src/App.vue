@@ -14,7 +14,6 @@ const cargando = ref(false)
 const serviciosExcluyentes = ['Corte clásico', 'Corte moderno']
 const mostrarModalCalificacion = ref(false)
 const idParaCalificar = ref(null)
-const fechaMinima = new Date().toISOString().split('T')[0]
 
 const servicioActual = ref({
   nombre: '',
@@ -180,8 +179,6 @@ async function guardarServicio() {
 
   await new Promise(resolve => setTimeout(resolve, 800))
 
-  let idGuardado = null
-
   if (modoEdicion.value) {
     const posicion = servicios.value.findIndex(
       servicio => servicio.id === idEditando.value
@@ -204,7 +201,6 @@ async function guardarServicio() {
       }
     }
 
-    idGuardado = idEditando.value
   } else {
     const nuevoServicio = {
       id: Date.now(),
@@ -222,7 +218,6 @@ async function guardarServicio() {
     }
 
     servicios.value.unshift(nuevoServicio)
-    idGuardado = nuevoServicio.id
   }
 
   cargando.value = false
@@ -889,7 +884,7 @@ button {
 .header {
   background: #171717;
   color: white;
-  padding: 28px 5%;
+  padding: 28px 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;

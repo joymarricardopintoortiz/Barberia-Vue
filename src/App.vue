@@ -12,6 +12,8 @@ const mostrarConfirmacion = ref(false)
 const idEliminar = ref(null)
 const cargando = ref(false)
 const serviciosExcluyentes = ['Corte clásico', 'Corte moderno']
+const mostrarModalCalificacion = ref(false)
+const idParaCalificar = ref(null)
 
 const servicioActual = ref({
   nombre: '',
@@ -162,13 +164,6 @@ function validarFormulario() {
     return false
   }
 
-  if (
-    Number(servicioActual.value.calificacion) < 1 ||
-    Number(servicioActual.value.calificacion) > 5
-  ) {
-    mensajeError.value = 'La calificación debe estar entre 1 y 5.'
-    return false
-  }
 
   return true
 }
@@ -184,6 +179,8 @@ async function guardarServicio() {
 
   await new Promise(resolve => setTimeout(resolve, 800))
 
+  let idGuardado = null
+
   if (modoEdicion.value) {
     const posicion = servicios.value.findIndex(
       servicio => servicio.id === idEditando.value
@@ -192,6 +189,7 @@ async function guardarServicio() {
     if (posicion !== -1) {
       servicios.value[posicion] = {
         id: idEditando.value,
+        idGuardado: idEditando.value,
         nombre: servicioActual.value.nombre.trim(),
         servicios: servicioActual.value.servicios,
         otroDetalle: servicioActual.value.otroDetalle?.trim() || '',
@@ -205,26 +203,68 @@ async function guardarServicio() {
         observaciones: servicioActual.value.observaciones.trim()
       }
     }
+
+    idGuardado = idEditando.value
   } else {
     const nuevoServicio = {
       id: Date.now(),
       nombre: servicioActual.value.nombre.trim(),
       servicios: servicioActual.value.servicios,
+      otroDetalle: servicioActual.value.otroDetalle?.trim() || '',
       barbero: servicioActual.value.barbero,
       fecha: servicioActual.value.fecha,
       hora: servicioActual.value.hora,
       precio: Number(servicioActual.value.precio),
       metodoPago: servicioActual.value.metodoPago,
       estadoPago: servicioActual.value.estadoPago,
-      calificacion: Number(servicioActual.value.calificacion),
+      calificacion: 0,
       observaciones: servicioActual.value.observaciones.trim()
     }
 
     servicios.value.unshift(nuevoServicio)
+    idGuardado = nuevoServicio.id
   }
 
   cargando.value = false
   cerrarModal()
+
+  const posicionFinal = servicios.value.findIndex(s => s.id === idGuardado)
+  servicioActual.value.calificacion = posicionFinal !== -1
+  ? servicios.value[posicionFinal].calificacion
+  :0
+
+  idParaCalificar.value = idGuardado
+  mostrarModalCalificacion.value = true
+}
+
+function cerrarModalCalificacion() {
+  mostrarModalCalificacion.value = false
+  idParaCalificar.value = null
+}
+
+async function confirmarCalificacion() {
+  if (
+    Number(servicioActual.value.calificacion) < 1 ||
+    Number(servicioActual.value.calificacion) > 5
+  ) {
+    mensajeError.value = 'Selecciona una calificación entre 1 y 5.'
+    return
+  }
+
+  cargando.value = true
+
+  await new Promise(resolve => setTimeout(resolve, 500))
+
+  const posicion = servicios.value.findIndex(
+    servicio => servicio.id === idParaCalificar.value
+  )
+
+  if (posicion !== -1) {
+    servicios.value[posicion].calificacion = Number(servicioActual.value.calificacion)
+  }
+
+  cargando.value = false
+  cerrarModalCalificacion()
 }
 
 function eliminarServicio(id) {
@@ -349,6 +389,20 @@ function obtenerTextoServicios(servicio) {
     .join(', ')
 }
 
+function formatearHora(hora) {
+  const [horas, minutos] = hora.split(':').map(Number)
+  const periodo = horas >= 12 ? 'p. m.' : 'a. m.'
+  let horas12 = horas % 12
+  if (horas12 === 0) {
+    horas12 = 12
+  }
+  return `${horas12}:${minutos.toString().padStart(2, '0')} ${periodo}`
+}
+
+function formatearFecha(fecha) {
+  return fecha.replaceAll('-', '/')
+}
+
 </script>
 
 <template>
@@ -446,9 +500,9 @@ function obtenerTextoServicios(servicio) {
                 <h3>{{ servicio.nombre }}</h3>
 
                 <p>
-                  {{ servicio.fecha }}
-                  ·
-                  {{ servicio.hora }}
+                  {{ formatearFecha(servicio.fecha) }}
+                  -
+                  {{ formatearHora(servicio.hora) }}
                 </p>
               </div>
             </div>
@@ -559,7 +613,7 @@ function obtenerTextoServicios(servicio) {
     <div
       v-show="mostrarModal"
       class="modal-fondo"
-      @click.self="cerrarModal"
+      
     >
 
       <div class="modal">
@@ -712,28 +766,7 @@ function obtenerTextoServicios(servicio) {
               </select>
             </div>
 
-            <div class="campo campo-completo">
-              <label>Calificación del cliente *</label>
-
-              <div class="calificacion-form">
-
-                <button
-                  v-for="numero in 5"
-                  :key="numero"
-                  type="button"
-                  class="estrella-btn"
-                  :class="{ seleccionada: numero <= servicioActual.calificacion }"
-                  @click="servicioActual.calificacion = numero"
-                >
-                  ★
-                </button>
-
-                <span>
-                  {{ servicioActual.calificacion }}/5
-                </span>
-
-              </div>
-            </div>
+            
 
             <div class="campo campo-completo">
               <label>Observaciones</label>
@@ -793,6 +826,41 @@ function obtenerTextoServicios(servicio) {
         </div>
       </div>
     </div>
+
+    <div
+    v-show="mostrarModalCalificacion"
+    class="modal-fondo"
+    >
+    <div class="modal-confirmacion modal-calificacion">
+      <div class="confirmacion-icono">⭐</div>
+      <h2>¿Cómo fue la atención?</h2>
+      <p>Califica al cliente para llevar un mejor control de la relación con él.</p>
+
+      <div v-if="mensajeError" class="error">{{ mensajeError }}</div>
+      
+      <div class="calificacion-form" style="justify-content: center; margin-top: 20px;">
+      <button
+        v-for="numero in 5"
+        :key="numero"
+        type="button"
+        class="estrella-btn"
+        :class="{ seleccionada: numero <= servicioActual.calificacion }"
+        @click="servicioActual.calificacion = numero"
+      >
+        ★
+      </button>
+
+      <span>{{ servicioActual.calificacion }}/5</span>
+    </div>
+
+    <div class="confirmacion-botones">
+      <button type="button" class="btn-principal" @click="confirmarCalificacion">
+        Guardar calificación
+      </button>
+    </div>
+  </div>
+</div>
+
     <div v-if="cargando" class="loading-fondo">
       <div class="spinner"></div>
     </div>

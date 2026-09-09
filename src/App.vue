@@ -1023,7 +1023,7 @@ button {
 }
 
 .lista {
-  columns: 3;
+  columns: 5 260px;
   column-gap: 18px;
 }
 
@@ -1225,6 +1225,7 @@ button {
   padding-top: 15px;
   border-top: 1px solid #818181;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
@@ -1238,6 +1239,13 @@ button {
 .acciones {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.acciones button {
+  flex: 1 1 auto;
 }
 
 .vacio {

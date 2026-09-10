@@ -214,6 +214,7 @@ async function guardarServicio() {
       metodoPago: servicioActual.value.metodoPago,
       estadoPago: servicioActual.value.estadoPago,
       calificacion: 0,
+      calificado: false,
       observaciones: servicioActual.value.observaciones.trim()
     }
 
@@ -255,6 +256,7 @@ async function confirmarCalificacion() {
 
   if (posicion !== -1) {
     servicios.value[posicion].calificacion = Number(servicioActual.value.calificacion)
+    servicios.value[posicion].calificado = true
   }
 
   cargando.value = false
@@ -517,7 +519,7 @@ function formatearFecha(fecha) {
               </strong>
             </div>
 
-            <div class="dato">
+            <div class="dato" v-if="servicio.calificado">
               <span class="dato-label">Calificación</span>
 
               <strong
@@ -531,7 +533,7 @@ function formatearFecha(fecha) {
           </div>
 
           <div
-            v-if="servicio.calificacion <= 2"
+            v-if="servicio.calificacion && servicio.calificacion <= 2"
             class="alerta-calificacion"
           >
             Calificación baja. Conviene revisar la experiencia del cliente.

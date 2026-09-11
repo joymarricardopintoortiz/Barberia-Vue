@@ -197,7 +197,8 @@ async function guardarServicio() {
         metodoPago: servicioActual.value.metodoPago,
         estadoPago: servicioActual.value.estadoPago,
         calificacion: Number(servicioActual.value.calificacion),
-        observaciones: servicioActual.value.observaciones.trim()
+        observaciones: servicioActual.value.observaciones.trim(),
+        calificado: Number(servicioActual.value.calificacion) > 0,
       }
     }
 
@@ -555,11 +556,6 @@ function formatearFecha(fecha) {
           </div>
 
           <div class="card-footer">
-
-            <span class="metodo">
-              {{ obtenerIconoPago(servicio.metodoPago) }}
-              {{ servicio.metodoPago }}
-            </span>
 
             <div class="acciones">
 

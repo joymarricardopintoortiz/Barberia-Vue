@@ -787,7 +787,7 @@ function formatearFecha(fecha) {
       </div>
     </div>
 
-    <div v-show="mostrarConfirmacion" class="modal-fondo" @click.self="cancelarEliminacion">
+    <div v-show="mostrarConfirmacion" class="modal-fondo" >
       <div class="modal-confirmacion">
         <div class="confirmacion-icono">🗑️</div>
         <h2>¿Eliminar servicio?</h2>
